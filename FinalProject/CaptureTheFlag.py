@@ -1,11 +1,13 @@
 # Michael MacDonald and Joey Sullivan
 # Final Project - Capture The Flag
 # Various
-# Capture The Flag Game
+# Capture The Flag
+
 
 from sac_graphics import *
 import time
 from game import Game
+
 def main():
     w, h = 1400, 800
     win = GraphWin("Capture the Flag", w, h)
@@ -46,7 +48,7 @@ def main():
     creditstext.setSize(24)
 
     # drawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext, win, w)
-
+    game.move()
     print(win.getMouse())
 
     # while run:
@@ -97,6 +99,7 @@ def undrawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, credit
     playtext.undraw()
     infotext.undraw()
     creditstext.undraw()
+
 
 
 

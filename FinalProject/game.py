@@ -46,14 +46,14 @@ class Game:
 
         self.blueside.draw(self.win)
         self.redside.draw(self.win)
-        self.bplayer.draw(self.win)
-        self.rplayer.draw(self.win)
         self.bsafe.draw(self.win)
         self.rsafe.draw(self.win)
         self.rflag.draw(self.win)
         self.bflag.draw(self.win)
         self.rsafezonetext.draw(self.win)
         self.bsafezonetext.draw(self.win)
+        self.bplayer.draw(self.win)
+        self.rplayer.draw(self.win)
 
     def undrawgame(self):
 
@@ -68,23 +68,35 @@ class Game:
         self.rsafezonetext.undraw()
         self.bsafezonetext.undraw()
 
-    # def move(self):
-    #     flag = True
-    #     while flag:
-    #         checkKey = win.checkKey
-    #
-    #         if checkKey == "w":
-    #
-    #
-    #         elif checkKey == "a":
-    #
-    #
-    #         elif checkKey == "s":
-    #
-    #
-    #         elif checkKey == "d":
+    def move(self):
+        flag = True
+
+        while flag:
+            rdx, rdy, bdx, bdy = 0, 0, 0, 0
+            key = self.win.checkKey()
 
 
+            if key == 'w':
+                bdy = -10
+            elif key == 's':
+                bdy = 10
+            elif key == 'a':
+                bdx = -10
+            elif key == 'd':
+                bdx = 10
+
+            if key == 'Up':
+                rdy = -10
+            elif key == 'Down':
+                rdy = 10
+            elif key == 'Left':
+                rdx = -10
+            elif key == 'Right':
+                rdx = 10
+
+            # Update circle and square positions
+            self.bplayer.move(bdx, bdy)
+            self.rplayer.move(rdx, rdy)
 
 
 
