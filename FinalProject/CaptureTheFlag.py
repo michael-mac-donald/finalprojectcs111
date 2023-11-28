@@ -15,9 +15,8 @@ def main():
     run = True
     game = Game(win, w, h)
 
-    game.drawgame()
 
-    playbutton = Rectangle(Point(w/2 + 100, 150), Point(w/2 - 100, 225))
+    playbutton = Rectangle(Point(w/2 - 100, 150), Point(w/2 + 100, 225))
     playbutton.setFill(color_rgb(145, 153, 255))
     playbutton.setOutline(color_rgb(0, 0, 255))
     playbutton.setWidth(4)
@@ -27,7 +26,7 @@ def main():
     playtext.setFace("courier")
     playtext.setSize(24)
 
-    infobutton = Rectangle(Point(w / 2 + 100, 300), Point(w / 2 - 100, 375))
+    infobutton = Rectangle(Point(w / 2 - 100, 375), Point(w / 2 + 100, 300))
     infobutton.setFill(color_rgb(255, 153, 142))
     infobutton.setOutline(color_rgb(255, 0, 0))
     infobutton.setWidth(4)
@@ -37,7 +36,7 @@ def main():
     infotext.setFace("courier")
     infotext.setSize(24)
 
-    creditsbutton = Rectangle(Point(w / 2 + 100, 450), Point(w / 2 - 100, 525))
+    creditsbutton = Rectangle(Point(w / 2 - 100, 525), Point(w / 2 + 100, 450))
     creditsbutton.setFill(color_rgb(145, 153, 255))
     creditsbutton.setOutline(color_rgb(0, 0, 255))
     creditsbutton.setWidth(4)
@@ -47,24 +46,23 @@ def main():
     creditstext.setFace("courier")
     creditstext.setSize(24)
 
-    # drawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext, win, w)
-    game.move()
-    print(win.getMouse())
+    drawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext, win, w)
 
-    # while run:
-    #     mc = win.checkMouse()
-    #     if mc:
-    #         if isClicked(mc, playbutton):
-    #            # close this window and open the game window
-    #            win.close()
-    #         elif isClicked(mc, infobutton):
-    #               undrawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext)
-    #             #display infobutton text
-    #         elif isClicked(mc, creditsbutton):
-    #               undrawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext)
-    #             #display credits text
+    while run:
+        mc = win.checkMouse()
+        if mc:
+            if isClicked(mc, playbutton):
+                undrawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext)
+                game.drawgame()
+                game.move()
+            elif isClicked(mc, infobutton):
+                  undrawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext)
+                #display infobutton text
+            elif isClicked(mc, creditsbutton):
+                  undrawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext)
+                #display credits text
 
-def isClicked(Point, rect) -> bool:
+def isClicked(Point,rect)->bool:
     px, py = Point.getX(), Point.getY()
     p1, p2 = rect.getP1(), rect.getP2()
     if px >= p1.getX() and px <= p2.getX() and py >= p1.getY() and py <= p2.getY():
@@ -99,8 +97,6 @@ def undrawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, credit
     playtext.undraw()
     infotext.undraw()
     creditstext.undraw()
-
-
 
 
 if __name__ == "__main__":

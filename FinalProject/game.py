@@ -41,6 +41,8 @@ class Game:
 
         self.bsafezonetext = Image(Point(1350, 385), "assets/bsafezone.png")
 
+        self.target_point = None
+        self.collision_circle = None
 
     def drawgame(self):
 
@@ -68,13 +70,19 @@ class Game:
         self.rsafezonetext.undraw()
         self.bsafezonetext.undraw()
 
+    def make_collision_circle(self, center):
+        if self.collision_circle:
+            self.collision_circle.undraw()
+        self.collision_circle = Circle(center, 5)
+
+
     def move(self):
         flag = True
-
         while flag:
             rdx, rdy, bdx, bdy = 0, 0, 0, 0
             key = self.win.checkKey()
-
+            bplayer_x, bplayer_y = self.bplayer.getCenter().getX(), self.bplayer.getCenter().getY()
+            rplayer_x, rplayer_y = self.rplayer.getCenter().getX(), self.rplayer.getCenter().getY()
 
             if key == 'w':
                 bdy = -10
@@ -85,20 +93,35 @@ class Game:
             elif key == 'd':
                 bdx = 10
 
-            if key == 'Up':
-                rdy = -10
-            elif key == 'Down':
-                rdy = 10
-            elif key == 'Left':
-                rdx = -10
-            elif key == 'Right':
-                rdx = 10
+            mouse_point = self.win.checkMouse()
 
-            # Update circle and square positions
-            self.bplayer.move(bdx, bdy)
-            self.rplayer.move(rdx, rdy)
+            if mouse_point:
+                self.target_point = mouse_point
+                self.make_collision_circle(self.target_point)
 
+            if self.target_point:
+                dx = self.target_point.getX() - self.rplayer.getCenter().getX()
+                dy = self.target_point.getY() - self.rplayer.getCenter().getY()
 
+                distance = ((dx ** 2) + (dy ** 2)) ** 0.5
 
-    # def maps(self):
-#         map selector, puts black rectangles on the map that have collision detection
+                min_distance = self.rplayer.getRadius() + self.collision_circle.getRadius()
+
+                if distance > min_distance:
+
+                    dx /= distance
+                    dy /= distance
+
+                    self.rplayer.move(dx * 10, dy * 10)
+                else:
+                    self.target_point = None
+
+            new_bplayer_x, new_bplayer_y = bplayer_x + bdx, bplayer_y + bdy
+            new_rplayer_x, new_rplayer_y = rplayer_x + rdx, rplayer_y + rdy
+
+            if 0 <= new_bplayer_x <= self.win.getWidth() and 0 <= new_bplayer_y <= self.win.getHeight():
+                self.bplayer.move(bdx, bdy)
+
+            if 0 <= new_rplayer_x <= self.win.getWidth() and 0 <= new_rplayer_y <= self.win.getHeight():
+                self.rplayer.move(rdx, rdy)
+            time.sleep(.05)
