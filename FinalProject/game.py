@@ -10,6 +10,8 @@ class Game:
 
     def __init__(self, win, w, h):
         self.win = win
+        self.w = w
+        self.h = h
         self.blueside = Rectangle(Point(0, h), Point(w / 2, 0))
         self.blueside.setFill(color_rgb(145, 153, 255))
 
@@ -44,6 +46,9 @@ class Game:
         self.target_point = None
         self.collision_circle = None
 
+        self.rflagpoint = Circle(Point(1200, 400), 22)
+        self.bflagpoint = Circle(Point(200, 400), 22)
+
     def drawgame(self):
 
         self.blueside.draw(self.win)
@@ -70,11 +75,11 @@ class Game:
         self.rsafezonetext.undraw()
         self.bsafezonetext.undraw()
 
+
     def make_collision_circle(self, center):
         if self.collision_circle:
             self.collision_circle.undraw()
         self.collision_circle = Circle(center, 5)
-
 
     def move(self):
         flag = True
@@ -113,6 +118,17 @@ class Game:
                     dy /= distance
 
                     self.rplayer.move(dx * 10, dy * 10)
+
+                    # Check for collision with red flag point
+                    if (
+                            self.bplayer.getCenter().getX() - self.rflag.getAnchor().getX()
+                    ) ** 2 + (
+                            self.bplayer.getCenter().getY() - self.rflag.getAnchor().getY()
+                    ) ** 2 <= self.bplayer.getRadius() ** 2:
+                        # Undraw the blue player when colliding with the red flag point
+                        self.bplayer.undraw()
+                        flag = False  # Exit the loop when collision occurs
+
                 else:
                     self.target_point = None
 
@@ -124,4 +140,7 @@ class Game:
 
             if 0 <= new_rplayer_x <= self.win.getWidth() and 0 <= new_rplayer_y <= self.win.getHeight():
                 self.rplayer.move(rdx, rdy)
-            time.sleep(.05)
+
+
+
+

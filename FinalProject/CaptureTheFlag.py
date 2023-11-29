@@ -26,7 +26,7 @@ def main():
     playtext.setFace("courier")
     playtext.setSize(24)
 
-    infobutton = Rectangle(Point(w / 2 - 100, 375), Point(w / 2 + 100, 300))
+    infobutton = Rectangle(Point(w / 2 - 100, 300), Point(w / 2 + 100, 375))
     infobutton.setFill(color_rgb(255, 153, 142))
     infobutton.setOutline(color_rgb(255, 0, 0))
     infobutton.setWidth(4)
@@ -45,6 +45,8 @@ def main():
     creditstext.setStyle("bold")
     creditstext.setFace("courier")
     creditstext.setSize(24)
+
+    # howtoplay = Image((Point(w / 2, h / 2)), "assets/howtoplay.jpeg")
 
     drawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext, win, w)
 
@@ -72,11 +74,19 @@ def isClicked(Point,rect)->bool:
 
 
 def drawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext, win, w):
-    for i in range(1, 50):
+    title = []
+    for i in range(1, 51):
         file = "assets/title/frame-" + str(i) + ".png"
+        title.append(file)
+
+    for file in title:
         title = Image((Point(w / 2, 50)), file)
         title.draw(win)
-        time.sleep(.02)
+        win.update()
+        time.sleep(.01)
+        title.undraw()
+
+    title.draw(win)
 
     playbutton.draw(win)
     time.sleep(.2)
@@ -91,6 +101,7 @@ def drawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditst
     creditstext.draw(win)
 
 def undrawmenu(playbutton, infobutton, creditsbutton, playtext, infotext, creditstext):
+
     playbutton.undraw()
     infobutton.undraw()
     creditsbutton.undraw()
