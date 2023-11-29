@@ -107,9 +107,7 @@ class Game:
             if self.target_point:
                 dx = self.target_point.getX() - self.rplayer.getCenter().getX()
                 dy = self.target_point.getY() - self.rplayer.getCenter().getY()
-
                 distance = ((dx ** 2) + (dy ** 2)) ** 0.5
-
                 min_distance = self.rplayer.getRadius() + self.collision_circle.getRadius()
 
                 if distance > min_distance:
@@ -119,15 +117,9 @@ class Game:
 
                     self.rplayer.move(dx * 10, dy * 10)
 
-                    # Check for collision with red flag point
-                    if (
-                            self.bplayer.getCenter().getX() - self.rflag.getAnchor().getX()
-                    ) ** 2 + (
-                            self.bplayer.getCenter().getY() - self.rflag.getAnchor().getY()
-                    ) ** 2 <= self.bplayer.getRadius() ** 2:
-                        # Undraw the blue player when colliding with the red flag point
-                        self.bplayer.undraw()
-                        flag = False  # Exit the loop when collision occurs
+                    if (self.rplayer.getCenter().getX() - self.bflag.getAnchor().getX()) ** 2 + (self.rplayer.getCenter().getY() - self.bflag.getAnchor().getY()) ** 2 <= self.rplayer.getRadius() ** 2:
+                        self.rplayer.undraw()
+                        flag = False
 
                 else:
                     self.target_point = None
@@ -140,7 +132,6 @@ class Game:
 
             if 0 <= new_rplayer_x <= self.win.getWidth() and 0 <= new_rplayer_y <= self.win.getHeight():
                 self.rplayer.move(rdx, rdy)
-
 
 
 
